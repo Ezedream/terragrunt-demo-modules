@@ -20,6 +20,19 @@ terraform {
   }
 }
 
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE DB SUBNET GROUP 
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "aws_db_subnet_group" "demo" {
+  name       = "terragrunt-demo-subnet-group"
+  subnet_ids = ["10.0.0.0/24","10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+}
+
+
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE MYSQL DB
 # ---------------------------------------------------------------------------------------------------------------------
@@ -27,8 +40,9 @@ terraform {
 resource "aws_db_instance" "mysql" {
   engine         = "mysql"
   engine_version = "8.0.31"
+  db_subnet_group_name = aws_db_subnet_group.demo.name
 
-  name     = var.name
+  db_name     = var.name
   username = var.master_username
   password = var.master_password
 
