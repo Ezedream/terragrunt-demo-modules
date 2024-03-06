@@ -42,7 +42,7 @@ resource "aws_db_instance" "mysql" {
   engine_version = "8.0.31"
   db_subnet_group_name = aws_db_subnet_group.demo.name
 
-  db_name     = var.db_name
+  name     = var.name
   username = var.master_username
   password = var.master_password
 

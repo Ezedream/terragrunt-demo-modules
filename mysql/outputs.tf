@@ -3,7 +3,7 @@ output "endpoint" {
 }
 
 output "db_name" {
-  value = aws_db_instance.mysql.db_name
+  value = aws_db_instance.mysql.name
 }
 
 output "arn" {
