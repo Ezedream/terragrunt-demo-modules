@@ -16,7 +16,7 @@ data "aws_subnets" "default" {
   }
 }
 */
-
+/*
 // ----------- VPC -----------
 resource "aws_vpc" "terragrunt-demo-vpc" {
   cidr_block = "10.0.0.0/16"
@@ -52,8 +52,8 @@ resource "aws_subnet" "private_subnet_bis" {
 
 }
 
-
+*/
 # Récupérer les sous-réseaux du VPC personnalisé
 data "aws_subnet_ids" "default" {
-  vpc_id = aws_vpc.terragrunt-demo-vpc.id
+  vpc_id = "vpc-0ed4f1fb5de01b9b3"
 }
