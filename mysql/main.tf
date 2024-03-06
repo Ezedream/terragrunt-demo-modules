@@ -25,9 +25,45 @@ terraform {
 # CREATE THE DB SUBNET GROUP 
 # ---------------------------------------------------------------------------------------------------------------------
 
+
+// ----------- VPC -----------
+resource "aws_vpc" "terragrunt-demo-vpc" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+}
+
+// ----------- Subnet -----------
+resource "aws_subnet" "public_subnet" {
+  vpc_id            = aws_vpc.terragrunt-demo-vpc.id
+  cidr_block        = "10.0.0.0/24"
+  availability_zone = "eu-west-1a"
+
+}
+
+resource "aws_subnet" "public_subnet_bis" {
+  vpc_id            = aws_vpc.terragrunt-demo-vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "eu-west-1b"
+
+}
+
+resource "aws_subnet" "private_subnet" {
+  vpc_id            = aws_vpc.terragrunt-demo-vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "eu-west-1a"
+
+}
+resource "aws_subnet" "private_subnet_bis" {
+  vpc_id            = aws_vpc.terragrunt-demo-vpc.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "eu-west-1b"
+
+}
+
 resource "aws_db_subnet_group" "demo" {
   name       = "terragrunt-demo-subnet-group"
-  subnet_ids = ["10.0.0.0/24","10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
+  subnet_ids = [aws_subnet.public_subnet.cidr_block,aws_subnet.public_subnet_bis.cidr_block, aws_subnet.private_subnet.cidr_block, aws_subnet.private_subnet_bis.cidr_block]
 }
 
 
@@ -41,11 +77,9 @@ resource "aws_db_instance" "mysql" {
   engine         = "mysql"
   engine_version = "8.0.31"
   db_subnet_group_name = aws_db_subnet_group.demo.name
-
   name     = var.name
   username = var.master_username
   password = var.master_password
-
   instance_class    = var.instance_class
   allocated_storage = var.allocated_storage
   storage_type      = var.storage_type
