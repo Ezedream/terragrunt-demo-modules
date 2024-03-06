@@ -56,4 +56,8 @@ resource "aws_subnet" "private_subnet_bis" {
 # Récupérer les sous-réseaux du VPC personnalisé
 data "aws_subnet_ids" "default" {
   vpc_id = "vpc-0ed4f1fb5de01b9b3"
+  filter {
+    name   = "tag:Filter"
+    values = ["elb"] 
+  }
 }
