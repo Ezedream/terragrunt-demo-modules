@@ -3,7 +3,7 @@ variable "aws_region" {
   type        = string
 }
 
-variable "name" {
+variable "db_name" {
   description = "The name of the DB"
   type        = string
 }
